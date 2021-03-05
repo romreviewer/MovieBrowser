@@ -1,16 +1,19 @@
 package com.romreviewer.moviebrowser.ui.moviehome
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.GridLayoutManager
 import com.romreviewer.moviebrowser.data.api.TheMovieDBClient
 import com.romreviewer.moviebrowser.data.api.TheMovieDBInterface
 import com.romreviewer.moviebrowser.data.repository.NetworkState
 import com.romreviewer.moviebrowser.databinding.MovieHomeFragmentBinding
+import com.yarolegovich.discretescrollview.DSVOrientation
+import com.yarolegovich.discretescrollview.InfiniteScrollAdapter
+import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 
 class MovieHome : Fragment() {
 
@@ -48,12 +51,12 @@ class MovieHome : Fragment() {
                 return if (viewType == movieAdapter.MOVIE_VIEW_TYPE) 1
                 else 3
             }
-        };
-
+        }
+        slider()
         binding.lowerRecycler.setHasFixedSize(true)
         binding.lowerRecycler.layoutManager = gridLayoutManager
         binding.lowerRecycler.adapter = movieAdapter
-
+        binding.lowerRecycler.isNestedScrollingEnabled = false
         viewModel.moviePagedList.observe(viewLifecycleOwner, {
             movieAdapter.submitList(it)
         })
@@ -66,6 +69,17 @@ class MovieHome : Fragment() {
                 movieAdapter.setNetworkState(it)
             }
         })
+    }
+    private fun slider()
+    {
+        binding.itemPicker.setOrientation(DSVOrientation.HORIZONTAL)
+        binding.itemPicker.adapter = InfiniteScrollAdapter.wrap(MoviePagerAdapter(viewModel.getData()))
+        binding.itemPicker.isNestedScrollingEnabled = false
+        binding.itemPicker.setItemTransformer(
+            ScaleTransformer.Builder()
+                .setMinScale(0.8f)
+                .build()
+        )
     }
 
     private fun getViewModel(): MovieHomeViewModel {

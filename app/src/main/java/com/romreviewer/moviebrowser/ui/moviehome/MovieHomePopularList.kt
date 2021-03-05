@@ -86,15 +86,19 @@ class MovieHomePopularList(val context: Context) : PagedListAdapter<Movie, Recyc
             val moviePosterURL = POSTER_BASE_URL + movie?.posterPath
             Glide.with(itemView.context)
                 .load(moviePosterURL)
+                .centerCrop()
                 .into(itemView.findViewById<ImageView>(R.id.cv_iv_movie_poster));
 
             itemView.setOnClickListener{
                 val intent = Intent(context, MovieDetail::class.java)
                 intent.putExtra("id", movie?.id)
                 intent.putExtra("overview",movie?.overview)
-                intent.putExtra("url",movie?.backdrop_path)
+                intent.putExtra("url",moviePosterURL)
                 intent.putExtra("name",movie?.title)
-                //intent.putExtra("genre",movie?.genre)
+                intent.putExtra("releaseDate",movie?.releaseDate)
+                intent.putExtra("genre",movie?.genre_ids as ArrayList<*>)
+                //intent.putExtra("vote",movie.vote_average)
+                intent.putExtra("voteCount",movie.vote_count)
                 context.startActivity(intent)
             }
 

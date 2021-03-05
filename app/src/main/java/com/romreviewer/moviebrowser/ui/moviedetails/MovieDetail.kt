@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -42,8 +43,15 @@ class MovieDetail : AppCompatActivity() {
         val extras=intent.extras
         viewModel.movieName.postValue(extras?.getString("name"))
         viewModel.overview.postValue(extras?.getString("overview"))
+        viewModel.releaseDate.postValue(extras?.getString("releaseDate"))
+        viewModel.genre=extras?.getIntegerArrayList("genre")
+        viewModel.genre()
+        binding.genreRecycler.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        binding.genreRecycler.setHasFixedSize(true)
+        binding.genreRecycler.adapter=GenreAdapter(viewModel.geneList)
         Glide.with(this)
-            .load("https://image.tmdb.org/t/p/w500" + extras?.getString("url"))
+            //.load("https://image.tmdb.org/t/p/w500" + extras?.getString("url"))
+            .load(extras?.getString("url"))
             .centerCrop()
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
@@ -69,6 +77,5 @@ class MovieDetail : AppCompatActivity() {
 
             })
             .into(binding.imageView)
-        Log.d("LogTag", "https://image.tmdb.org/t/p/w500" + extras?.getString("url"))
     }
 }

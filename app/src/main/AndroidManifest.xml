@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.romreviewer.moviebrowser">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,9 +11,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        tools:replace="android:theme"
         android:theme="@style/Theme.MovieBrowser">
         <activity android:name=".ui.moviedetails.MovieDetail"
-            android:theme="@style/Theme.MovieBrowser.NoActionBar"></activity>
+            android:theme="@style/Theme.MovieBrowser.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.MovieBrowser.NoActionBar">

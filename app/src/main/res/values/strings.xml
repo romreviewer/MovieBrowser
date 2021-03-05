@@ -13,4 +13,5 @@
     <string name="connection_problem">Connection Problem!!</string>
     <string name="retry">Retry</string>
     <string name="book_now">BOOK NOW</string>
+    <string name="synopsis">Synopsis</string>
 </resources>
